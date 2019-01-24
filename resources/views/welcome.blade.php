@@ -65,12 +65,11 @@
 </div>
 <div class="row">
   <div class="col-md-12">
-
     <table class="table table-striped" id="college_list">
         <thead>
           <tr>
-            <th>College Id</th>
             <th>College Name</th>
+            <th>College Id</th>
             <th>Region</th>
             <th>Action</th>
           </tr>
@@ -96,8 +95,25 @@
       </table>
   <script>
     $(document).ready( function () {
-      $('#college_list').DataTable();
-  } );
+      $('#college_list').DataTable({
+/*        aaSorting: [[0, 'desc']]
+    });*/
+
+        aaSorting: [[2, 'asc']],
+        bPaginate: true,
+        bFilter: false,
+        bInfo: false,
+        bSortable: true,
+        bRetrieve: true,
+        aoColumnDefs: [
+            { "aTargets": [ 0 ], "bSortable": true },
+            { "aTargets": [ 1 ], "bSortable": true },
+            { "aTargets": [ 2 ], "bSortable": true },
+            { "aTargets": [ 3 ], "bSortable": false }
+        ]
+    }); 
+
+  });
   </script>
 </body>
 </html>
