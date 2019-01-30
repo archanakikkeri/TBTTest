@@ -20,3 +20,6 @@ Route::post('/collegelist','UserController@collegelist');
 Route::get('/edit_college/{id}','UserController@edit_college');
 Route::get('/delete_college/{id}','UserController@delete_college');
 Route::post('/update_college','UserController@update_college');
+Route::get('/tbt_status','UserController@tbt_status');
+Route::get('/edit_status/{team_id}','UserController@edit_status');
+Route::post('/update_status','UserController@update_status');
