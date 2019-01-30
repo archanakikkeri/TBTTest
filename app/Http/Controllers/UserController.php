@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\college_list;
 Use DB;
+use App\tbt_status_complete;
+use Log;
 
 class UserController extends Controller
 {
@@ -87,6 +89,33 @@ class UserController extends Controller
         return redirect()->to('/');
     }
 
+    public function edit_status($team_id)
+    {
+        $team_id=convert_uudecode(base64_decode($team_id));
+        $tbt_status=tbt_status_complete::where('team_id',$team_id)->first();
+        return view('edit_status',['tbt_status'=>$tbt_status]);
+    }
+    
+    public function update_status(Request $request)
+    {
+        //return 'Hello world';
+        $tbt_status=$request->all();
+
+                
+        try {
+            tbt_status_complete::where('team_id',$tbt_status['team_id'])->update(['tbt_completed'=>$tbt_status['tbt_completed']]);
+
+            $request->session()->flash('alert-success','TBT status updated successfully');
+        }
+
+        catch(\Exception $e)
+        {
+            $request->session()->flash('alert-danger',$e->getMessage());
+        }
+
+        return redirect()->to('/tbt_status');
+    }
+
     public function delete_college(Request $request, $college_id)
     {
         $college_id=convert_uudecode(base64_decode($college_id));
@@ -101,4 +130,14 @@ class UserController extends Controller
         }
         return redirect()->to('/');        
     }
+
+    public function tbt_status()
+    {
+
+   /*     return 'Hello world';*/
+
+        $tbt_status = tbt_status_complete::orderBy('team_id','asc')->get();
+        return view ('tbt_status_complete',['tbt_status'=>$tbt_status]);
+    }
+
 }	
